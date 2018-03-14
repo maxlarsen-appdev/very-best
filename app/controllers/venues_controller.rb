@@ -1,12 +1,33 @@
 class VenuesController < ApplicationController
   def index
     @q = Venue.ransack(params[:q])
-    @venues = @q.result(:distinct => true).includes(:bookmarks, :neighborhood, :fans, :specialties).page(params[:page]).per(10)
+    @venues = @q.result(:distinct => true,).includes(:bookmarks, :neighborhood, :fans, :specialties).page(params[:page]).per(100)
+    @arraytwo = []
+    @books = Bookmark.where(:user => current_user).each do |bookmark|
+      @arraytwo.push(Venue.find(bookmark.venue.id).name)
+    end
+
+    @venues_new = []
+  
+    @venues.each do |ven|
+      if @arraytwo.include?(ven.name)
+      @venues_new.push(ven)
+    else
+    end
+     
+  
+  end
+  
+    # if current venue is in the users bookmarks insert into the venues_new array
+    
+    
+
     @location_hash = Gmaps4rails.build_markers(@venues.where.not(:address_latitude => nil)) do |venue, marker|
       marker.lat venue.address_latitude
       marker.lng venue.address_longitude
       marker.infowindow "<h5><a href='/venues/#{venue.id}'>#{venue.created_at}</a></h5><small>#{venue.address_formatted_address}</small>"
-    end
+    
+  end
 
     render("venues/index.html.erb")
   end

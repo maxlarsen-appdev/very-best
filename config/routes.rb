@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  root :to => "venues#index"
+  get "/", :controller => "dishes", :action => "index"
 
+  get("bmdvenues", {:controller => "bmdvenues", :action => "index"})
+
+  
   # Routes for the Bookmark resource:
   # CREATE
   get "/bookmarks/new", :controller => "bookmarks", :action => "new"
@@ -73,6 +76,8 @@ Rails.application.routes.draw do
   # CREATE
   get "/venues/new", :controller => "venues", :action => "new"
   post "/create_venue", :controller => "venues", :action => "create"
+
+ 
 
   # READ
   get "/venues", :controller => "venues", :action => "index"

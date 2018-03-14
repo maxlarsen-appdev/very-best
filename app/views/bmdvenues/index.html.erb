@@ -1,0 +1,15 @@
+<h1>
+  My Bookedmarked Venues
+<h1>
+  
+<td>
+    <% Bookmark.where(:user_id => current_user).each do |bookmarks| %>
+    <div class="panel-body">
+      
+      <%= Venue.find(bookmarks.venue_id).name %> 
+   
+    <% end %>
+    </div>
+</td>
+
+
